@@ -12,6 +12,7 @@ import mediaRoutes from './routes/media.routes.js';
 import uploadRoutes from './routes/upload.route.js';
 import adminRoutes from './routes/admin.routes.js';
 import ownerInfoRoutes from './routes/ownerInfo.routes.js';
+import userSettingsRoutes from './routes/userSettings.routes.js';
 
 const app = express();
 
@@ -28,6 +29,7 @@ const __dirname = path.dirname(__filename);
 // Define Paths
 const publicDir = path.join(__dirname, "public");
 const uploadsDir = path.join(__dirname, "public", "uploads");
+const avatarDir = path.join(__dirname, "public", "uploads", "avatars");
 const candidateProfileDir = path.join(publicDir, "candidate_profile");
 
 // CORS Configuration
@@ -83,7 +85,7 @@ app.use((req, res, next) => {
 // --- File System & Static Files ---
 
 // Ensure directories exist
-[uploadsDir].forEach(dir => {
+[uploadsDir, avatarDir].forEach(dir => {
     if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir, { recursive: true });
         console.log(`Created directory: ${dir}`);
@@ -162,6 +164,7 @@ app.use("/media", mediaRoutes);
 app.use("/upload", uploadRoutes);
 app.use("/admin", adminRoutes);
 app.use('/owner-info', ownerInfoRoutes);
+app.use('/user', userSettingsRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);

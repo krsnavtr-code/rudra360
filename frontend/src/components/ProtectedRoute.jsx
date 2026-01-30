@@ -1,7 +1,7 @@
-import { Navigate, Outlet } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { Navigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
-export const ProtectedRoute = ({ adminOnly = false }) => {
+export const ProtectedRoute = ({ adminOnly = false, children }) => {
   const { user, loading } = useAuth();
 
   if (loading) {
@@ -14,10 +14,10 @@ export const ProtectedRoute = ({ adminOnly = false }) => {
   }
 
   // If adminOnly is true and user is not an admin, redirect to home
-  if (adminOnly && user.role !== 'admin') {
+  if (adminOnly && user.role !== "admin") {
     return <Navigate to="/" replace />;
   }
 
-  // If all checks pass, render the child routes
-  return <Outlet />;
+  // If all checks pass, render the children
+  return children;
 };

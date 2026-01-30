@@ -15,15 +15,20 @@ import {
   LogOut,
   ShieldCheck,
   Star,
+  User,
+  LogIn,
+  Settings,
 } from "lucide-react";
 
 const Navbar = () => {
   const { darkMode, toggleTheme } = useTheme();
-  const { user, isAuthenticated, isAdmin } = useAuth();
+  const { user, isAuthenticated, isAdmin, logout } = useAuth();
   const location = useLocation();
+  const navigate = useNavigate();
 
   const [mounted, setMounted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [ownerInfo, setOwnerInfo] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -45,6 +50,12 @@ const Navbar = () => {
   }, []);
 
   const phoneNumber = ownerInfo?.callNumber?.replace(/[^\d+]/g, "") || "";
+
+  const handleLogout = async () => {
+    await logout();
+    setUserMenuOpen(false);
+    navigate("/");
+  };
 
   const NavLink = ({ to, children, className = "" }) => {
     const isActive = location.pathname === to;
@@ -72,10 +83,10 @@ const Navbar = () => {
     <nav className="sticky top-0 z-[100] w-full border-b border-amber-100/30 dark:border-slate-800 bg-white/90 dark:bg-slate-900/95 backdrop-blur-xl transition-all">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-20 items-center">
-          {/* --- BRANDING: RUDRA360 --- */}
+          {/* --- BRANDING --- */}
           <Link to="/" className="flex items-center gap-3 group">
             <div className="relative">
-              <div className="w-11 h-11 bg-gradient-to-tr from-indigo-900 via-slate-900 to-amber-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-amber-500/10 group-hover:rotate-3 transition-transform">
+              <div className="w-11 h-11 bg-gradient-to-tr from-indigo-900 via-slate-900 to-amber-600 rounded-xl flex items-center justify-center text-white shadow-lg group-hover:rotate-3 transition-transform">
                 <Trophy size={24} className="text-amber-400" />
               </div>
               <div className="absolute -top-1 -right-1">
@@ -100,34 +111,6 @@ const Navbar = () => {
             <div className="flex items-center space-x-7">
               <NavLink to="/">Home</NavLink>
               <NavLink to="/portfolio">Gallery</NavLink>
-
-              {/* Awards Categories Dropdown */}
-              <div className="relative group py-4">
-                <button className="flex items-center gap-1 text-sm font-semibold text-slate-600 dark:text-slate-400 hover:text-amber-500 transition-colors">
-                  Services{" "}
-                  <ChevronDown
-                    size={14}
-                    className="group-hover:rotate-180 transition-transform"
-                  />
-                </button>
-                <div className="absolute top-full left-0 w-56 bg-white dark:bg-slate-800 rounded-xl shadow-2xl border border-slate-100 dark:border-slate-700 py-3 opacity-0 translate-y-2 invisible group-hover:opacity-100 group-hover:translate-y-0 group-hover:visible transition-all duration-200">
-                  {[
-                    "Corporate Awards",
-                    "Cultural Galas",
-                    "Technical Summits",
-                    "Elite Recognition",
-                  ].map((service) => (
-                    <Link
-                      key={service}
-                      to={`/services/${service.toLowerCase().replace(" ", "-")}`}
-                      className="block px-5 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-amber-50 dark:hover:bg-amber-900/20 hover:text-amber-600"
-                    >
-                      {service}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-
               <NavLink to="/contact">Consultation</NavLink>
             </div>
 
@@ -139,22 +122,95 @@ const Navbar = () => {
                 {mounted && (darkMode ? <Moon size={20} /> : <Sun size={20} />)}
               </button>
 
-              {!loading && phoneNumber && (
-                <a
-                  href={`tel:${phoneNumber}`}
-                  className="px-6 py-2.5 text-sm font-bold text-white bg-gradient-to-r from-amber-600 to-yellow-600 rounded-lg shadow-lg shadow-amber-500/20 hover:shadow-amber-500/40 hover:-translate-y-0.5 transition-all flex items-center gap-2"
-                >
-                  <Phone size={16} />
-                  Book Event
-                </a>
-              )}
+              {/* --- AUTH SECTION --- */}
+              {isAuthenticated ? (
+                <div className="relative">
+                  <button
+                    onClick={() => setUserMenuOpen(!userMenuOpen)}
+                    className="flex items-center gap-2 p-1.5 pr-3 rounded-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-amber-500 transition-all"
+                  >
+                    <div className="w-8 h-8 rounded-full bg-amber-500 flex items-center justify-center text-white">
+                      <User size={18} />
+                    </div>
+                    <span className="text-sm font-bold text-slate-700 dark:text-slate-200">
+                      {user?.name?.split(" ")[0] || "Profile"}
+                    </span>
+                    <ChevronDown
+                      size={14}
+                      className={`text-slate-400 transition-transform ${userMenuOpen ? "rotate-180" : ""}`}
+                    />
+                  </button>
 
-              {isAuthenticated && isAdmin && (
+                  <AnimatePresence>
+                    {userMenuOpen && (
+                      <>
+                        <div
+                          className="fixed inset-0 z-10"
+                          onClick={() => setUserMenuOpen(false)}
+                        ></div>
+                        <motion.div
+                          initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                          className="absolute right-0 mt-3 w-64 bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-slate-100 dark:border-slate-700 py-3 z-20 overflow-hidden"
+                        >
+                          <div className="px-5 py-3 border-b border-slate-100 dark:border-slate-700 mb-2">
+                            <p className="text-[10px] font-black uppercase tracking-widest text-amber-500">
+                              Authenticated As
+                            </p>
+                            <p className="text-sm font-bold text-slate-900 dark:text-white truncate">
+                              {user?.email}
+                            </p>
+                            {isAdmin && (
+                              <span className="inline-flex items-center mt-1 px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/10 text-amber-600 border border-amber-500/20">
+                                ADMIN ACCESS
+                              </span>
+                            )}
+                          </div>
+
+                          {isAdmin && (
+                            <Link
+                              to="/admin"
+                              onClick={() => setUserMenuOpen(false)}
+                              className="flex items-center gap-3 px-5 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700/50"
+                            >
+                              <ShieldCheck
+                                size={18}
+                                className="text-amber-500"
+                              />{" "}
+                              Command Center
+                            </Link>
+                          )}
+
+                          <Link
+                            to="/profile"
+                            onClick={() => setUserMenuOpen(false)}
+                            className="flex items-center gap-3 px-5 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700/50"
+                          >
+                            <Settings size={18} /> Account Settings
+                          </Link>
+
+                          <button
+                            onClick={handleLogout}
+                            className="w-full flex items-center gap-3 px-5 py-2.5 text-sm font-bold text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-900/10 transition-colors mt-2"
+                          >
+                            <LogOut size={18} /> Secure Logout
+                          </button>
+                        </motion.div>
+                      </>
+                    )}
+                  </AnimatePresence>
+                </div>
+              ) : (
                 <Link
-                  to="/admin"
-                  className="p-2.5 rounded-xl bg-amber-50 dark:bg-amber-900/20 text-amber-600 border border-amber-200 dark:border-amber-900/50"
+                  to="/login"
+                  className="flex items-center gap-2 px-6 py-2.5 text-sm font-bold text-slate-700 dark:text-white bg-slate-100 dark:bg-slate-800 rounded-xl hover:bg-amber-500 hover:text-white transition-all group"
                 >
-                  <ShieldCheck size={20} />
+                  <LogIn
+                    size={18}
+                    className="group-hover:translate-x-1 transition-transform"
+                  />
+                  Sign In
                 </Link>
               )}
             </div>
@@ -188,28 +244,33 @@ const Navbar = () => {
             className="md:hidden bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800 overflow-hidden"
           >
             <div className="p-4 space-y-2">
-              {["Home", "Gallery", "Services", "Contact"].map((item) => (
+              {["Home", "Gallery", "Contact"].map((item) => (
                 <Link
                   key={item}
                   to={item === "Home" ? "/" : `/${item.toLowerCase()}`}
                   onClick={() => setIsOpen(false)}
-                  className="flex items-center p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 font-bold text-slate-700 dark:text-slate-200 hover:bg-amber-50 dark:hover:bg-amber-900/10 transition-colors"
+                  className="flex items-center p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 font-bold text-slate-700 dark:text-slate-200"
                 >
                   {item}
                 </Link>
               ))}
 
-              <div className="pt-4">
-                {phoneNumber && (
-                  <a
-                    href={`tel:${phoneNumber}`}
-                    className="w-full p-4 rounded-xl bg-gradient-to-r from-amber-600 to-yellow-600 text-white font-bold flex items-center justify-center gap-3"
-                  >
-                    <Phone size={20} />
-                    Contact Organizer
-                  </a>
-                )}
-              </div>
+              {!isAuthenticated ? (
+                <Link
+                  to="/login"
+                  onClick={() => setIsOpen(false)}
+                  className="flex items-center justify-center gap-2 p-4 rounded-xl bg-amber-500 text-white font-bold"
+                >
+                  <LogIn size={20} /> Sign In to Portal
+                </Link>
+              ) : (
+                <button
+                  onClick={handleLogout}
+                  className="w-full flex items-center justify-center gap-2 p-4 rounded-xl bg-rose-500 text-white font-bold"
+                >
+                  <LogOut size={20} /> Logout
+                </button>
+              )}
             </div>
           </motion.div>
         )}

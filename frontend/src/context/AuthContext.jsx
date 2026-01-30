@@ -90,6 +90,21 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
+  // Update user profile
+  const updateUser = async (userData) => {
+    try {
+      const res = await api.put("/user/profile", userData);
+      setUser(res.data);
+      return { success: true };
+    } catch (err) {
+      console.error("Update user error:", err);
+      return {
+        success: false,
+        message: err.response?.data?.message || "Failed to update profile",
+      };
+    }
+  };
+
   // Check for token on initial load
   useEffect(() => {
     if (token) {
@@ -107,6 +122,7 @@ export const AuthProvider = ({ children }) => {
         register,
         login,
         logout,
+        updateUser,
         isAuthenticated: !!user,
         isAdmin: user?.role === "admin",
       }}
@@ -114,7 +130,7 @@ export const AuthProvider = ({ children }) => {
       {!loading && children}
     </AuthContext.Provider>
   );
-};
+};;
 
 export const useAuth = () => {
   return useContext(AuthContext);

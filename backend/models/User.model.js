@@ -20,6 +20,59 @@ const userSchema = new mongoose.Schema({
         required: true,
         minlength: 6
     },
+    phone: {
+        type: String,
+        trim: true
+    },
+    location: {
+        type: String,
+        trim: true
+    },
+    bio: {
+        type: String,
+        maxlength: 500
+    },
+    avatar: {
+        type: String
+    },
+    preferences: {
+        theme: {
+            type: String,
+            enum: ['light', 'dark', 'auto'],
+            default: 'auto'
+        },
+        language: {
+            type: String,
+            default: 'en'
+        },
+        timezone: {
+            type: String,
+            default: 'UTC'
+        },
+        notifications: {
+            email: { type: Boolean, default: true },
+            push: { type: Boolean, default: false },
+            sms: { type: Boolean, default: true },
+            marketing: { type: Boolean, default: false }
+        },
+        privacy: {
+            profileVisibility: {
+                type: String,
+                enum: ['public', 'friends', 'private'],
+                default: 'public'
+            },
+            showEmail: { type: Boolean, default: false },
+            showPhone: { type: Boolean, default: true },
+            allowMessages: { type: Boolean, default: true }
+        }
+    },
+    twoFactorEnabled: {
+        type: Boolean,
+        default: false
+    },
+    twoFactorSecret: {
+        type: String
+    },
     role: {
         type: String,
         enum: ['user', 'admin'],

@@ -13,6 +13,7 @@ import ImageGallery from "./pages/admin/MediaGallery.jsx";
 import Users from "./pages/admin/Users";
 import OwnerInfo from "./pages/admin/OwnerInfo";
 import { ProtectedRoute } from "./components/ProtectedRoute";
+import AccountSettings from "./pages/AccountSettings";
 
 function App() {
   return (
@@ -22,20 +23,33 @@ function App() {
         <Route index element={<Home />} />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
+        <Route
+          path="profile"
+          element={
+            <ProtectedRoute>
+              <AccountSettings />
+            </ProtectedRoute>
+          }
+        />
       </Route>
 
       {/* Admin Routes - Protected and Admin Only */}
-      <Route element={<ProtectedRoute adminOnly />}>
-        <Route path="/admin" element={<AdminLayout />}>
-          <Route index element={<AdminDashboard />} />
-          <Route path="media-gallery" element={<ImageGallery />} />
-          <Route path="media-gallery/upload" element={<MediaGallery />} />
-          <Route path="media/tags" element={<MediaTags />} />
-          <Route path="users" element={<Users />} />
-          <Route path="owner-info" element={<OwnerInfo />} />
+      <Route
+        path="/admin"
+        element={
+          <ProtectedRoute adminOnly>
+            <AdminLayout />
+          </ProtectedRoute>
+        }
+      >
+        <Route index element={<AdminDashboard />} />
+        <Route path="media-gallery" element={<ImageGallery />} />
+        <Route path="media-gallery/upload" element={<MediaGallery />} />
+        <Route path="media/tags" element={<MediaTags />} />
+        <Route path="users" element={<Users />} />
+        <Route path="owner-info" element={<OwnerInfo />} />
 
-          {/* Add more admin routes here */}
-        </Route>
+        {/* Add more admin routes here */}
       </Route>
 
       {/* Not Found Route */}
