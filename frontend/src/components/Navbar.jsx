@@ -110,7 +110,7 @@ const Navbar = () => {
           <div className="hidden md:flex items-center gap-8">
             <div className="flex items-center space-x-7">
               <NavLink to="/">Home</NavLink>
-              <NavLink to="/portfolio">Gallery</NavLink>
+              <NavLink to="/portfolio">Portfolio </NavLink>
               <NavLink to="/contact">Consultation</NavLink>
             </div>
 

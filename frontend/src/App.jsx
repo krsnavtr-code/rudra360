@@ -14,6 +14,7 @@ import Users from "./pages/admin/Users";
 import OwnerInfo from "./pages/admin/OwnerInfo";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import AccountSettings from "./pages/AccountSettings";
+import ContactUs from "./pages/ContactUs";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route index element={<Home />} />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
+        <Route path="contact" element={<ContactUs />} />
         <Route
           path="profile"
           element={
