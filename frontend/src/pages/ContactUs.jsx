@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useTheme } from "../context/ThemeContext";
 import InquiryForm from "../components/InquiryForm";
+import { getOwnerInfo } from "../api/ownerInfoApi";
 import {
   Mail,
   Phone,
@@ -19,6 +20,33 @@ import {
 
 const ContactUs = () => {
   const { darkMode } = useTheme();
+  const [ownerInfo, setOwnerInfo] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchOwnerInfo = async () => {
+      try {
+        const data = await getOwnerInfo();
+        setOwnerInfo(data);
+      } catch (error) {
+        console.error("Failed to fetch owner info:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchOwnerInfo();
+  }, []);
+
+  // Get primary owner contact info
+  const getPrimaryOwner = () => {
+    if (!ownerInfo?.owners?.length) return null;
+    return (
+      ownerInfo.owners.find((owner) => owner.isPrimary) || ownerInfo.owners[0]
+    );
+  };
+
+  const primaryOwner = getPrimaryOwner();
 
   const services = [
     {
@@ -51,22 +79,35 @@ const ContactUs = () => {
     {
       icon: Phone,
       title: "Call Us",
-      details: ["+91 98765 43210", "+1 (555) 123-4567"],
-      action: "tel:+919876543210",
+      details: primaryOwner
+        ? [primaryOwner.callNumber, primaryOwner.whatsappNumber]
+        : ["+91 98765 43210", "+1 (555) 123-4567"],
+      action: primaryOwner
+        ? `tel:${primaryOwner.callNumber.replace(/[^\d+]/g, "")}`
+        : "tel:+919876543210",
       color: "bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400",
     },
     {
       icon: Mail,
       title: "Email Us",
-      details: ["events@rudra360.com", "support@rudra360.com"],
-      action: "mailto:events@rudra360.com",
+      details: primaryOwner
+        ? [primaryOwner.email]
+        : ["events@rudra360.com", "support@rudra360.com"],
+      action: primaryOwner
+        ? `mailto:${primaryOwner.email}`
+        : "mailto:events@rudra360.com",
       color:
         "bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400",
     },
     {
       icon: MapPin,
       title: "Visit Us",
-      details: ["Mumbai, India", "New York, USA"],
+      details:
+        ownerInfo?.businessLocations?.length > 0
+          ? ownerInfo.businessLocations.map(
+              (loc) => `${loc.city}, ${loc.country}`,
+            )
+          : ["Mumbai, India", "New York, USA"],
       action: "#locations",
       color:
         "bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400",
@@ -74,7 +115,9 @@ const ContactUs = () => {
     {
       icon: Clock,
       title: "Business Hours",
-      details: ["Mon-Fri: 9AM-6PM", "Sat: 10AM-4PM"],
+      details: ownerInfo?.businessHours
+        ? [ownerInfo.businessHours.weekdays, ownerInfo.businessHours.saturday]
+        : ["Mon-Fri: 9AM-6PM", "Sat: 10AM-4PM"],
       action: "#",
       color:
         "bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400",
