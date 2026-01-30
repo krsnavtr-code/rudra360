@@ -17,6 +17,8 @@ import AccountSettings from "./pages/AccountSettings";
 import ContactUs from "./pages/ContactUs";
 import ContactInquiries from "./pages/admin/ContactInquiries";
 import Portfolio from "./pages/admin/Portfolio";
+import PortfolioPublic from "./pages/Portfolio";
+import PortfolioDetail from "./pages/PortfolioDetail";
 import Privacy from "./pages/Privacy";
 import TermsOfUse from "./pages/TermsOfUse";
 import AboutUs from "./pages/AboutUs";
@@ -43,6 +45,8 @@ function App() {
         <Route path="case-studies" element={<CaseStudies />} />
         <Route path="cultural-events" element={<CulturalEvents />} />
         <Route path="hall-of-fame" element={<HallOfFame />} />
+        <Route path="portfolio" element={<PortfolioPublic />} />
+        <Route path="portfolio/:id" element={<PortfolioDetail />} />
         <Route path="privacy" element={<Privacy />} />
         <Route path="terms" element={<TermsOfUse />} />
         <Route
