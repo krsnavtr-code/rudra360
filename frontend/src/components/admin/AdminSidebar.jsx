@@ -14,6 +14,7 @@ import {
   Sun,
   Moon,
   Sparkles,
+  Mail,
 } from "lucide-react";
 
 const AdminSidebar = () => {
@@ -42,6 +43,11 @@ const AdminSidebar = () => {
       name: "Event Categories",
       path: "/admin/media/tags",
       icon: <Tags size={20} />,
+    },
+    {
+      name: "Contact Inquiries",
+      path: "/admin/contact-inquiries",
+      icon: <Mail size={20} />,
     },
     {
       name: "Business Settings",

@@ -15,6 +15,7 @@ import OwnerInfo from "./pages/admin/OwnerInfo";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import AccountSettings from "./pages/AccountSettings";
 import ContactUs from "./pages/ContactUs";
+import ContactInquiries from "./pages/admin/ContactInquiries";
 
 function App() {
   return (
@@ -50,6 +51,7 @@ function App() {
         <Route path="media/tags" element={<MediaTags />} />
         <Route path="users" element={<Users />} />
         <Route path="owner-info" element={<OwnerInfo />} />
+        <Route path="contact-inquiries" element={<ContactInquiries />} />
 
         {/* Add more admin routes here */}
       </Route>
