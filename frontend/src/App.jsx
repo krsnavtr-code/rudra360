@@ -16,6 +16,7 @@ import { ProtectedRoute } from "./components/ProtectedRoute";
 import AccountSettings from "./pages/AccountSettings";
 import ContactUs from "./pages/ContactUs";
 import ContactInquiries from "./pages/admin/ContactInquiries";
+import Portfolio from "./pages/admin/Portfolio";
 import Privacy from "./pages/Privacy";
 import TermsOfUse from "./pages/TermsOfUse";
 import AboutUs from "./pages/AboutUs";
@@ -68,6 +69,7 @@ function App() {
         <Route path="media-gallery/upload" element={<MediaGallery />} />
         <Route path="media/tags" element={<MediaTags />} />
         <Route path="users" element={<Users />} />
+        <Route path="portfolio" element={<Portfolio />} />
         <Route path="owner-info" element={<OwnerInfo />} />
         <Route path="contact-inquiries" element={<ContactInquiries />} />
 

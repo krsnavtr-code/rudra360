@@ -15,6 +15,7 @@ import {
   Moon,
   Sparkles,
   Mail,
+  Briefcase,
 } from "lucide-react";
 
 const AdminSidebar = () => {
@@ -28,6 +29,11 @@ const AdminSidebar = () => {
       name: "Dashboard",
       path: "/admin",
       icon: <LayoutDashboard size={20} />,
+    },
+    {
+      name: "Portfolio",
+      path: "/admin/portfolio",
+      icon: <Briefcase size={20} />,
     },
     {
       name: "Client Management",

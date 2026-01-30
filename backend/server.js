@@ -14,6 +14,7 @@ import adminRoutes from './routes/admin.routes.js';
 import ownerInfoRoutes from './routes/ownerInfo.routes.js';
 import userSettingsRoutes from './routes/userSettings.routes.js';
 import contactRoutes from './routes/contact.routes.js';
+import portfolioRoutes from './routes/portfolio.routes.js';
 
 const app = express();
 
@@ -167,6 +168,7 @@ app.use("/admin", adminRoutes);
 app.use('/owner-info', ownerInfoRoutes);
 app.use('/user', userSettingsRoutes);
 app.use('/contact', contactRoutes);
+app.use('/portfolio', portfolioRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
