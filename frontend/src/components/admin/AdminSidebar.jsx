@@ -35,12 +35,12 @@ const AdminSidebar = () => {
       icon: <Users size={20} />,
     },
     {
-      name: "Event Portfolio",
+      name: "Event Gallery",
       path: "/admin/media-gallery",
       icon: <Trophy size={20} />,
     },
     {
-      name: "Event Categories",
+      name: "Gallery Tags",
       path: "/admin/media/tags",
       icon: <Tags size={20} />,
     },
