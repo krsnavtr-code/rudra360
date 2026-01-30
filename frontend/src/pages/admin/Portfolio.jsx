@@ -5,25 +5,16 @@ import {
   Plus,
   Edit2,
   Trash2,
-  Eye,
-  EyeOff,
   Star,
   Calendar,
   MapPin,
   Users,
   Search,
-  Filter,
   X,
   Check,
   Image as ImageIcon,
-  Video,
   Tag,
-  TrendingUp,
-  Award,
-  Clock,
   DollarSign,
-  Target,
-  Sparkles,
 } from "lucide-react";
 
 const Portfolio = () => {
@@ -150,9 +141,18 @@ const Portfolio = () => {
 
   const handleEdit = (item) => {
     setEditingItem(item);
-    setFormData(item);
+
+    // Format the date for HTML date input
+    const formattedItem = {
+      ...item,
+      eventDate: item.eventDate
+        ? new Date(item.eventDate).toISOString().split("T")[0]
+        : "",
+    };
+
+    setFormData(formattedItem);
     setShowAddModal(true);
-  };
+  };;
 
   const handleDelete = async (id) => {
     if (
@@ -720,6 +720,49 @@ const Portfolio = () => {
                     ))}
                   </select>
                 </div>
+              </div>
+
+              {/* Media Links */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Photo Links (one per line)
+                </label>
+                <textarea
+                  rows={3}
+                  value={formData.images.join("\n")}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      images: e.target.value
+                        .split("\n")
+                        .map((url) => url.trim())
+                        .filter((url) => url),
+                    }))
+                  }
+                  placeholder="https://example.com/photo1.jpg&#10;https://example.com/photo2.jpg"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Video Links (one per line)
+                </label>
+                <textarea
+                  rows={3}
+                  value={formData.videos.join("\n")}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      videos: e.target.value
+                        .split("\n")
+                        .map((url) => url.trim())
+                        .filter((url) => url),
+                    }))
+                  }
+                  placeholder="https://youtube.com/watch?v=...&#10;https://vimeo.com/..."
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                />
               </div>
 
               {/* Additional Information */}

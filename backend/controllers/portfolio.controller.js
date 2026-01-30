@@ -120,6 +120,11 @@ export const createPortfolioItem = async (req, res) => {
       portfolioData.attendees = parseInt(portfolioData.attendees);
     }
 
+    // Parse event date
+    if (portfolioData.eventDate) {
+      portfolioData.eventDate = new Date(portfolioData.eventDate);
+    }
+
     const portfolioItem = new Portfolio(portfolioData);
     await portfolioItem.save();
 
@@ -158,6 +163,11 @@ export const updatePortfolioItem = async (req, res) => {
     }
     if (updateData.attendees) {
       updateData.attendees = parseInt(updateData.attendees);
+    }
+
+    // Parse event date
+    if (updateData.eventDate) {
+      updateData.eventDate = new Date(updateData.eventDate);
     }
 
     const portfolioItem = await Portfolio.findByIdAndUpdate(

@@ -70,15 +70,12 @@ const portfolioSchema = new mongoose.Schema({
     lowercase: true
   }],
   images: [{
-    url: String,
-    publicId: String,
-    caption: String
+    type: String,
+    trim: true
   }],
   videos: [{
-    url: String,
-    publicId: String,
-    caption: String,
-    thumbnail: String
+    type: String,
+    trim: true
   }],
   highlights: {
     type: String,
