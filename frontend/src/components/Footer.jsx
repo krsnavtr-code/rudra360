@@ -80,7 +80,7 @@ const Footer = () => {
             <ul className="space-y-4">
               {["Corporate Awards", "Technical Galas", "Cultural Events", "Hall of Fame", "Virtual Awards"].map((link) => (
                 <li key={link}>
-                  <Link to={`/services/${link.toLowerCase().replace(/\s+/g, '-')}`} className="text-slate-500 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-400 text-sm font-semibold transition-colors">
+                  <Link to={`/${link.toLowerCase().replace(/\s+/g, '-')}`} className="text-slate-500 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-400 text-sm font-semibold transition-colors">
                     {link}
                   </Link>
                 </li>
@@ -94,7 +94,7 @@ const Footer = () => {
               Company
             </h3>
             <ul className="space-y-4">
-              {["Our Portfolio", "About Us", "Contact Sales", "Press Room", "Case Studies"].map((link) => (
+              {["Portfolio", "About Us", "Contact", "Case Studies"].map((link) => (
                 <li key={link}>
                   <Link to={`/${link.toLowerCase().replace(/\s+/g, '-')}`} className="text-slate-500 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-400 text-sm font-semibold transition-colors">
                     {link}

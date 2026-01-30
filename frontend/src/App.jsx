@@ -16,6 +16,15 @@ import { ProtectedRoute } from "./components/ProtectedRoute";
 import AccountSettings from "./pages/AccountSettings";
 import ContactUs from "./pages/ContactUs";
 import ContactInquiries from "./pages/admin/ContactInquiries";
+import Privacy from "./pages/Privacy";
+import TermsOfUse from "./pages/TermsOfUse";
+import AboutUs from "./pages/AboutUs";
+import CorporateAwards from "./pages/CorporateAwards";
+import VirtualAwards from "./pages/VirtualAwards";
+import TechnicalGalas from "./pages/TechnicalGalas";
+import CaseStudies from "./pages/CaseStudies";
+import CulturalEvents from "./pages/CulturalEvents";
+import HallOfFame from "./pages/HallOfFame";
 
 function App() {
   return (
@@ -26,6 +35,15 @@ function App() {
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
         <Route path="contact" element={<ContactUs />} />
+        <Route path="about-us" element={<AboutUs />} />
+        <Route path="corporate-awards" element={<CorporateAwards />} />
+        <Route path="virtual-awards" element={<VirtualAwards />} />
+        <Route path="technical-galas" element={<TechnicalGalas />} />
+        <Route path="case-studies" element={<CaseStudies />} />
+        <Route path="cultural-events" element={<CulturalEvents />} />
+        <Route path="hall-of-fame" element={<HallOfFame />} />
+        <Route path="privacy" element={<Privacy />} />
+        <Route path="terms" element={<TermsOfUse />} />
         <Route
           path="profile"
           element={
