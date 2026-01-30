@@ -1,0 +1,38 @@
+# Dependencies (Frontend, Backend & Root)
+node_modules/
+
+# Environment Variables (IMPORTANT: Never commit secrets)
+.env
+.env.local
+.env.*.local
+backend/.env
+
+# Frontend Build Output (Vite creates 'dist')
+/frontend/dist
+/frontend/build
+dist/
+build/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+logs/
+*.log
+
+# OS Generated Files
+.DS_Store
+Thumbs.db
+.bit
+
+# IDE & Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Testing
+coverage/
+
+# Miscellaneous
+.eslintcache
